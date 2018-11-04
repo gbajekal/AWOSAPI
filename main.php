@@ -4,7 +4,8 @@
  use google\appengine\api\users\User;
  use google\appengine\api\users\UserService;
  use \google\appengine\api\mail\Message;
-$DEBUG = FALSE;
+ 
+ $DEBUG = FALSE;
 
 class AWOS_API extends REST {
 
@@ -14,9 +15,9 @@ class AWOS_API extends REST {
     const DB_SERVER = "/cloudsql/awos-beta:awos";
    //const DB_SERVER = "localhost";
     const DB_USER = "root";
-    const DB_PASSWORD = "admin";
+    const DB_PASSWORD = "adminH2o";
     const DB = "awos";
-    
+   
 
     private $db = NULL;
 
@@ -41,7 +42,7 @@ class AWOS_API extends REST {
        
         
         
-        $this->log("Entered processApi()");
+        $this->log("Entered function processApi()");
         
         // Get email of logged in user
         $user = $this->validateTokenAndGetEmail();
@@ -90,7 +91,7 @@ class AWOS_API extends REST {
             //****************************
             $isAdmin = $_SERVER['USER_IS_ADMIN'];
 
-            if( isAdmin)
+            if(UserService::isCurrentUserAdmin())
             {
                 $sql = mysql_query("SELECT id, userid FROM users", $this->db);
                     if (mysql_num_rows($sql) > 0) {
@@ -170,7 +171,7 @@ class AWOS_API extends REST {
     // categories
     function categories($user)
     {
-        $this->log("Entered categories");
+        $this->log("Entered function categories");
         $Catquery = "Select * from categories";
         $queryResult = $this->db->query($Catquery);
                 
@@ -253,6 +254,7 @@ class AWOS_API extends REST {
 {
     header("HTTP/1/1 $status $statusMsg");
     header("Content-Type:application/json");
+	header("Access-Control-Allow-Origin: *");
     $_RESPONSE["status"] = $status;
     $_RESPONSE["statusMsg"] = $statusMsg;
     $_RESPONSE["data"] = $data;
@@ -260,15 +262,17 @@ class AWOS_API extends REST {
     echo $json_response;
 }
 
+  
   public function log($logString)
                 {
                  global $DEBUG;
-                 if($DEBUG)              
+                 if($DEBUG == TRUE)              
                  echo $logString .'<br>';               
                     
                 }
                 
-                
+  
+
   private function validateTokenAndGetEmail()
   {
      return $_REQUEST['user'];
@@ -283,3 +287,5 @@ class AWOS_API extends REST {
  
  
  ob_end_flush();
+ 
+  

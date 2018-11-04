@@ -1,14 +1,17 @@
 application: awos-beta
 module: awosapi
-version: 1
+version: 3
 runtime: php55
-api_version: 1
+api_version: 2
 threadsafe: yes
 
+
 handlers:
+
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
 
 - url: .*
   script: mod_rewrite.php
+
