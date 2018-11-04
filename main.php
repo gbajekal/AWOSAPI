@@ -254,7 +254,7 @@ class AWOS_API extends REST {
 {
     header("HTTP/1/1 $status $statusMsg");
     header("Content-Type:application/json");
-	header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Origin: *");
     $_RESPONSE["status"] = $status;
     $_RESPONSE["statusMsg"] = $statusMsg;
     $_RESPONSE["data"] = $data;
