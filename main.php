@@ -187,6 +187,28 @@ class AWOS_API extends REST {
         $this->log("Exited categories");
     }
     
+     //***********************************
+    // This method returns the list of 
+    // categories
+    function properties($user)
+    {
+        $this->log("Entered function properties");
+        $Properties = "Select * from property";
+        $queryResult = $this->db->query($Properties);
+                
+         $result = array();
+         
+         while($property = $queryResult->fetch_assoc())
+         {
+             $result[] = $property;
+         }
+        
+         $this->deliver_response("200", "Properties", $result);
+        
+        $this->log("Exited properties");
+    }
+    
+    
     //**************************************************
     // addComplaint() - Adds/updates a complaint to the database
     //***************************************************
